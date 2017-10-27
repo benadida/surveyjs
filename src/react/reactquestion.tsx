@@ -85,8 +85,16 @@ export class SurveyQuestion extends React.Component<any, any> {
         if (this.questionBase.renderWidth) rootStyle["width"] = this.questionBase.renderWidth;
         if (paddingLeft) rootStyle["paddingLeft"] = paddingLeft;
         if (paddingRight) rootStyle["paddingRight"] = paddingRight;
+        
+        var fieldset_attributes = {role: undefined, "aria-required": undefined};
+        if (this.questionBase.getType() == "radiogroup") {
+            fieldset_attributes.role = 'radiogroup';
+            fieldset_attributes['aria-required'] = 'true';
+        }
+
         return (
             <div ref="root" id={this.questionBase.id} className={cssClasses.mainRoot} style={rootStyle}>
+            <fieldset {...fieldset_attributes}>
                 {titleTop}
                 {descriptionTop}
                 {errorsTop}
@@ -95,6 +103,7 @@ export class SurveyQuestion extends React.Component<any, any> {
                 {errorsBottom}
                 {titleBottom}
                 {descriptionBottom}
+            </fieldset>
             </div>
         );
     }
@@ -107,7 +116,7 @@ export class SurveyQuestion extends React.Component<any, any> {
     }
     protected renderTitle(cssClasses: any): JSX.Element {
         var titleText = SurveyElementBase.renderLocString(this.question.locTitle);
-        return <h5 className={cssClasses.title}>{titleText}</h5>;
+        return <legend className={cssClasses.title}>{titleText}</legend>;
     }
     protected renderDescription(cssClasses: any): JSX.Element {
         if(!this.questionBase.hasDescription) return null;
@@ -159,6 +168,6 @@ export class SurveyQuestionErrors extends ReactSurveyElement {
             var key = "error" + i;
             errors.push(this.creator.renderError(key, errorText, this.cssClasses));
         }
-        return (<div role="alert" className={this.cssClasses.error.root}>{errors}</div>);
+        return (<div role="alert" aria-describedby="{errors}" className={this.cssClasses.error.root}>{errors}</div>);
     }
 }

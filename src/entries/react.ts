@@ -28,6 +28,10 @@ export {SurveyQuestionCheckbox, SurveyQuestionCheckboxItem} from "../react/react
 export {SurveyQuestionDropdown} from "../react/reactquestiondropdown";
 export {SurveyQuestionMatrixDropdown, SurveyQuestionMatrixDropdownRow} from "../react/reactquestionmatrixdropdown";
 export {SurveyQuestionMatrix, SurveyQuestionMatrixRow} from "../react/reactquestionmatrix";
+
+// ben's addition
+export {SurveyQuestionMatrixRating, SurveyQuestionMatrixRatingRow} from "../react/reactquestionmatrixrating";
+
 export {SurveyQuestionHtml} from "../react/reactquestionhtml";
 export {SurveyQuestionFile} from "../react/reactquestionfile";
 export {SurveyQuestionMultipleText, SurveyQuestionMultipleTextItem} from "../react/reactquestionmultipletext";

@@ -30,6 +30,10 @@ export {
 export {MatrixDropdownRowModel, QuestionMatrixDropdownModel} from "../../question_matrixdropdown";
 export {MatrixDynamicRowModel, QuestionMatrixDynamicModel} from "../../question_matrixdynamic";
 export {MatrixRowModel, QuestionMatrixModel} from "../../question_matrix";
+
+// ben's addition
+export {MatrixRatingRowModel, QuestionMatrixRatingModel} from "../../question_matrixrating";
+
 export {MultipleTextItemModel, QuestionMultipleTextModel} from "../../question_multipletext";
 export {PanelModel, PanelModelBase, QuestionRowModel} from "../../panel";
 export {PageModel} from "../../page";

@@ -47,7 +47,7 @@ export class PageModel extends PanelModelBase implements IPage {
     public focusFirstQuestion() {
         for (var i = 0; i < this.questions.length; i++) {
             var question = this.questions[i];
-            if (!question.visible || !question.hasInput) continue;
+            if (!question.visible) continue;
             this.questions[i].focus();
             break;
         }

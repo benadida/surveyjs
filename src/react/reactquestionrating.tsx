@@ -40,7 +40,7 @@ export class SurveyQuestionRating extends SurveyQuestionElementBase {
         if (isChecked) className += " " + cssClasses.selected;
         var itemText = this.renderLocString(item.locText);
         return <label key={key} className={className}>
-            <input type="radio" style={{ display: "none" }} name={this.question.name} value={item.value} disabled={this.isDisplayMode} checked={this.question.value == item.value} onChange={this.handleOnChange} aria-label={item.locText.text}/>
+            <input type="radio" style={{ position: "absolute", "left":"-10000px", "top":"auto", "width":"1px", "height":"1px","overflow":"hidden" }} name={this.question.name} value={item.value} disabled={this.isDisplayMode} checked={this.question.value == item.value} onChange={this.handleOnChange}/>
             {minText}
             {itemText}
             {maxText}

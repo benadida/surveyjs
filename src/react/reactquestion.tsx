@@ -86,26 +86,37 @@ export class SurveyQuestion extends React.Component<any, any> {
         if (paddingLeft) rootStyle["paddingLeft"] = paddingLeft;
         if (paddingRight) rootStyle["paddingRight"] = paddingRight;
         
-        var fieldset_attributes = {role: undefined, "aria-required": undefined};
-        if (this.questionBase.getType() == "radiogroup") {
-            fieldset_attributes.role = 'radiogroup';
-            fieldset_attributes['aria-required'] = 'true';
+        if (this.questionBase.getType() == "radiogroup" || this.questionBase.getType() == "rating") {
+            var aria_required = this.question.isRequired? "true":"false";
+            return (
+                <div ref="root" id={this.questionBase.id} className={cssClasses.mainRoot} style={rootStyle}>
+                <fieldset role="radiogroup" aria-required={aria_required}>
+                    {titleTop}
+                    {descriptionTop}
+                    {errorsTop}
+                    {questionRender}
+                    {comment}
+                    {errorsBottom}
+                    {titleBottom}
+                    {descriptionBottom}
+                </fieldset>
+                </div>
+            );
+        } else {
+            return (
+                <div ref="root" id={this.questionBase.id} className={cssClasses.mainRoot} style={rootStyle}>
+                    {titleTop}
+                    {descriptionTop}
+                    {errorsTop}
+                    {questionRender}
+                    {comment}
+                    {errorsBottom}
+                    {titleBottom}
+                    {descriptionBottom}
+                </div>
+            );
         }
 
-        return (
-            <div ref="root" id={this.questionBase.id} className={cssClasses.mainRoot} style={rootStyle}>
-            <fieldset {...fieldset_attributes}>
-                {titleTop}
-                {descriptionTop}
-                {errorsTop}
-                {questionRender}
-                {comment}
-                {errorsBottom}
-                {titleBottom}
-                {descriptionBottom}
-            </fieldset>
-            </div>
-        );
     }
     protected renderQuestion(): JSX.Element {
         var customWidget = this.questionBase.customWidget;
@@ -116,7 +127,11 @@ export class SurveyQuestion extends React.Component<any, any> {
     }
     protected renderTitle(cssClasses: any): JSX.Element {
         var titleText = SurveyElementBase.renderLocString(this.question.locTitle);
-        return <legend className={cssClasses.title}>{titleText}</legend>;
+        if (this.questionBase.getType() == "matrix") {
+            return <h5 className={cssClasses.title}>{titleText}</h5>;
+        } else {
+            return <legend className={cssClasses.title}>{titleText}</legend>;
+        }
     }
     protected renderDescription(cssClasses: any): JSX.Element {
         if(!this.questionBase.hasDescription) return null;

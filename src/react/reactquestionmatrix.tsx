@@ -19,17 +19,17 @@ export class SurveyQuestionMatrix extends SurveyQuestionElementBase {
             var column = this.question.columns[i];
             var key = "column" + i;
             var columText = this.renderLocString(column.locText);
-            headers.push(<th key={key}>{columText}</th>);
+            headers.push(<th key={key} id={key}>{columText}</th>);
         }
         var rows = [];
         var visibleRows = this.question.visibleRows;
         for (var i = 0; i < visibleRows.length; i++) {
             var row = visibleRows[i];
             var key = "row" + i;
-            rows.push(<SurveyQuestionMatrixRow key={key} question={this.question} cssClasses={cssClasses} isDisplayMode={this.isDisplayMode} row={row} isFirst={i == 0} />);
+            rows.push(<SurveyQuestionMatrixRow key={key} rowNum={i} question={this.question} cssClasses={cssClasses} isDisplayMode={this.isDisplayMode} row={row} isFirst={i == 0} />);
         }
         return (
-            <table className={cssClasses.root}>
+            <table className={cssClasses.root} role="form">
                 <thead>
                     <tr>
                         {firstTH}
@@ -48,11 +48,13 @@ export class SurveyQuestionMatrixRow extends ReactSurveyElement {
     private question: QuestionMatrixModel;
     private row: MatrixRowModel;
     private isFirst: boolean;
+    private rowNum: number;
     constructor(props: any) {
         super(props);
         this.question = props.question;
         this.row = props.row;
         this.isFirst = props.isFirst;
+        this.rowNum = props.rowNum;
         this.handleOnChange = this.handleOnChange.bind(this);
     }
     handleOnChange(event) {
@@ -68,9 +70,11 @@ export class SurveyQuestionMatrixRow extends ReactSurveyElement {
     render(): JSX.Element {
         if (!this.row) return null;
         var firstTD = null;
+        var rowId = null;
         if(this.question.hasRows) {
             var rowText = this.renderLocString(this.row.locText);
-            firstTD = <td>{rowText}</td>;
+            rowId = "row" + this.rowNum;
+            firstTD = <td id={rowId}>{rowText}</td>;
         }
         var tds = [];
         for (var i = 0; i < this.question.columns.length; i++) {
@@ -78,16 +82,16 @@ export class SurveyQuestionMatrixRow extends ReactSurveyElement {
             var key = "value" + i;
             var isChecked = this.row.value == column.value;
             var inputId = this.isFirst && i == 0 ? this.question.inputId : null;
+            var aria_labelledby = "column" + i + " " + rowId;
             var td =
                 <td key={key}>
                     <label className={this.cssClasses.label}>
                         <input id={inputId} type="radio" className={this.cssClasses.itemValue} name={this.row.fullName}
                                value={column.value} disabled={this.isDisplayMode} checked={isChecked}
                                onChange={this.handleOnChange}
-                               aria-label={this.question.locTitle.renderedHtml}/>
+                               aria-labelledby={aria_labelledby}/>
                         <span className="circle"></span>
                         <span className="check"></span>
-                        <span style={{ 'display': 'none' }}>{this.question.locTitle.renderedHtml}</span>
                     </label>
                 </td>;
             tds.push(td);
